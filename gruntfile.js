@@ -24,8 +24,33 @@ module.exports = function(grunt) {
                 }
             }
         },
+        babel: {
+            options: {
+                "sourceMap": true
+            },
+            dist: {
+                files: [{
+                    "expand": true,
+                    "cwd": "src/js",
+                    "src": ["**/*.jsx"],
+                    "dest": "src/js-compiled/",
+                    "ext": "-compiled.js"
+                }]
+            }
+        },
         qunit: {
             files: ['test/**/*.html']
+        },
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'release/css',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'release/css',
+                    ext: '.min.css'
+                }]
+            }
         },
         jshint: {
             // define the files to lint
@@ -53,6 +78,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', ['jshint', 'qunit']);
 
-    grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'cssmin' ,'babel', 'uglify']);
 };
+
 
